@@ -1,0 +1,56 @@
+.farmacias-page {
+  padding: 80px 20px;
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h1, .subtitle {
+  text-align: center;
+}
+
+.search-bar {
+  display: flex;
+  max-width: 600px;
+  margin: 40px auto;
+  gap: 10px;
+}
+
+.search-bar input {
+  flex: 1;
+  padding: 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.search-bar button {
+  padding: 0 32px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.farmacias-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.farmacia-card {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.status {
+  color: green;
+  font-weight: bold;
+}
