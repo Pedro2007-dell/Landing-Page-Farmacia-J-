@@ -32,11 +32,10 @@ export default function Header() {
         </nav>
 
         <div className="buttons">
-          {/* As classes de botão agora são aplicadas diretamente nas tags Link */}
-          <Link to="/login" className="btn-outline">
+          <Link to="/login" className="btn-login">
             Entrar
           </Link>
-          <Link to="/cadastro" className="btn-primary">
+          <Link to="/cadastro" className="btn-cadastro">
             Cadastrar
           </Link>
         </div>

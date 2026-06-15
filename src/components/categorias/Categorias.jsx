@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // 1. Importa o hook para navegar
+import { useNavigate } from 'react-router-dom'; 
 import axios from 'axios';
 import './Categorias.css';
 
@@ -48,7 +48,7 @@ export default function Categorias() {
   if (error) return <p>{error}</p>;
 
   return (
-    <div className="categorias-page">
+    <div>
       <div className="container">
         <div className="header-section">
           <h1>Medicamentos por Categoria</h1>

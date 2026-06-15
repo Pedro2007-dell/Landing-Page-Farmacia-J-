@@ -91,15 +91,15 @@
 .buttons {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 15px;
 }
 
-.btn-outline {
+.btn-login {
   background: transparent;
   color: #2563eb;
   border: 2px solid #2563eb;
   margin: 1px 10px 23px 1px;
-  padding: 10px 22px;
+  padding: 10px 30px;
   border-radius: 12px;
   font-size: 14px;
   font-weight: 600;
@@ -111,18 +111,18 @@
   justify-content: center;
 }
 
-.btn-outline:hover {
+.btn-login:hover {
   background: #2563eb;
   color: white;
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
 }
 
-.btn-primary {
+.btn-cadastro {
   background: #2563eb;
   color: white;
   border: 2px solid #2563eb;
-  padding: 10px 30px;
+  padding: 15px 24px;
   margin: 1px 10px 23px 1px;
   border-radius: 12px;
   font-size: 14px;
@@ -136,7 +136,7 @@
   
 }
 
-.btn-primary:hover {
+.btn-cadastro:hover {
   background: #1d4ed8;
   border-color: #1d4ed8;
   transform: translateY(-1px);
