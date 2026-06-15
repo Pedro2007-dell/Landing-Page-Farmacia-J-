@@ -8,7 +8,7 @@ import Register from "./components/register/Register.jsx";
 import Medicamentos from "./components/medicamentos/Medicamentos.jsx";
 import Farmacias from "./components/farmacias/Farmacias.jsx";
 import Categorias from './components/categorias/Categorias.jsx';
-import Footer from "./components/footer/Footer.jsx";
+import Footer from "./components/Footer/footer.jsx";
 import Login from "./components/Login/login.jsx";
 import Perfil from "./components/perfil/Perfil.jsx";
 
