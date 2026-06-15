@@ -1,4 +1,4 @@
-import "./Footer.css";
+import "./footer.css";
 import { Link } from "react-router-dom";
 
 export default function Footer() {
@@ -6,14 +6,14 @@ export default function Footer() {
     <footer className="rodape">
       <div className="rodape-container">
         <div className="rodape-grid">
+          
           <div className="rodape-marca">
             <div className="rodape-logo">
               <span className="rodape-logo-icone">💊</span>
               <span className="rodape-logo-nome">Farmácia Já</span>
             </div>
             <p className="rodape-descricao">
-              Plataforma digital de saúde pública para acesso a medicamentos do
-              SUS.
+              Plataforma digital de saúde pública para acesso rápido e moderno a medicamentos do SUS.
             </p>
           </div>
 
@@ -36,16 +36,16 @@ export default function Footer() {
             <h4 className="rodape-titulo-coluna">Institucional</h4>
             <ul className="rodape-lista">
               <li>
-                <a href="#">Sobre o Projeto</a>
+                <Link to="/sobre">Sobre o Projeto</Link>
               </li>
               <li>
-                <a href="#">Política de Privacidade</a>
+                <a href="#privacidade">Política de Privacidade</a>
               </li>
               <li>
-                <a href="#">Acessibilidade</a>
+                <a href="#acessibilidade">Acessibilidade</a>
               </li>
               <li>
-                <a href="#">Termos de Uso</a>
+                <a href="#termos">Termos de Uso</a>
               </li>
             </ul>
           </div>
@@ -54,25 +54,32 @@ export default function Footer() {
             <h4 className="rodape-titulo-coluna">Contato</h4>
             <ul className="rodape-lista">
               <li>
-                <a href="mailto:contato@farmaciaja.gov.br">
+                <a href="mailto:contato@farmaciaja.gov.br" className="contato-link">
                   ✉️ contato@farmaciaja.gov.br
                 </a>
               </li>
               <li>
-                <a href="tel:08000001234">📞 0800 000 1234</a>
+                <a href="tel:08000001234" className="contato-link">
+                  📞 0800 000 1234
+                </a>
               </li>
               <li>
-                <a href="#">🌐 gov.br/farmaciaja</a>
+                <Link to="/contato" className="contato-link">
+                  🌐 gov.br/farmaciaja
+                </Link>
               </li>
             </ul>
           </div>
+
         </div>
 
         <div className="rodape-inferior">
           <p className="rodape-copyright">
-            © 2026 Farmácia Já — Projeto Acadêmico de Saúde Digital.
+            © {new Date().getFullYear()} Farmácia Já — Projeto Acadêmico de Saúde Digital.
           </p>
-          <p className="rodape-seguranca">🔒 Seguro · Acessível · Gratuito</p>
+          <p className="rodape-seguranca">
+            <span>🔒 Seguro</span> · <span>♿ Acessível</span> · <span>💚 Gratuito</span>
+          </p>
         </div>
       </div>
     </footer>

@@ -1,19 +1,15 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom"; // Importado o Link para ir ao cadastro
-import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
 import "./login.css";
+import supabase from "../../supabaseClient";
 
-export default function Login() {
+export default function Login({ setUsuario }) {
   const [formData, setFormData] = useState({
     cpf: "", 
     senha: "",
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const API_BASE_URL = "https://farmacia-ja-api.onrender.com";
-  const api = axios.create({
-    baseURL: API_BASE_URL,
-  });
   const navigate = useNavigate();
 
   const fazerLogin = async () => {
@@ -26,16 +22,33 @@ export default function Login() {
       return;
     }
 
-    try {
-      const response = await api.post("/usuarios/login", formData);
-      localStorage.setItem("token", response.data.token);
-      navigate("/"); 
-    } catch (erro) {
-      setError("Verifique seus dados de login");
-    } finally {
+    const cpfLimpo = formData.cpf.replace(/\D/g, "");
+
+    const { data, error } = await supabase
+      .from('usuarios')
+      .select('*')
+      .eq('cpf', cpfLimpo)
+      .eq('senha', formData.senha)
+      .single();
+
+    if (error || !data) {
+      setError("CPF ou senha incorretos.");
       setLoading(false);
+      return;
     }
+
+    setUsuario(data);
+    setLoading(false);
+    navigate("/");
   };
+
+    const formatarCPF = (valor) =>
+    valor
+      .replace(/\D/g, '')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})$/, '$1-$2')
+      .slice(0, 14);
 
   return (
     <div className="login-container">
@@ -50,7 +63,7 @@ export default function Login() {
           <div className="input-group">
             <label htmlFor="cpf">CPF</label>
             <input
-              onChange={(e) => setFormData({ ...formData, cpf: e.target.value })}
+              onChange={(e) => setFormData({ ...formData, cpf: formatarCPF( e.target.value )})}
               type="text" 
               name="cpf"
               id="cpf"
