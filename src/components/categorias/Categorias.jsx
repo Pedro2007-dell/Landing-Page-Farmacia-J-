@@ -48,7 +48,7 @@ export default function Categorias() {
   if (error) return <p>{error}</p>;
 
   return (
-    <div>
+    <div className="categorias-secao">
       <div className="container">
         <div className="header-section">
           <h1>Medicamentos por Categoria</h1>

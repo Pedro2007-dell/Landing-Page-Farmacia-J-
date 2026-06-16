@@ -1,3 +1,7 @@
+.categorias-secao {
+  padding: 4rem 0 5rem 0;
+}
+
 .categorias-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
