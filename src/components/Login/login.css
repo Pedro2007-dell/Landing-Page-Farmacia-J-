@@ -2,9 +2,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 80vh; /* Alinha o card no centro vertical da tela */
+  min-height: 100vh;
   background: #f8fafc;
-  padding: 40px 24px;
+  padding: 100px 24px 40px 24px;
 }
 
 .login-card {
