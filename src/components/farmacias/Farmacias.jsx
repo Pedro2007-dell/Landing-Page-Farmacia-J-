@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import './Farmacias.css';
-
-const API_BASE_URL = 'https://farmacia-ja-api.onrender.com';
+import API_BASE_URL from '../../config/api.js';
 
 export default function Farmacias() {
   const [farmacias, setFarmacias] = useState([]);

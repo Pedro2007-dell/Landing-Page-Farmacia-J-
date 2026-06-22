@@ -50,14 +50,6 @@ export default function Login({ setUsuario }) {
     navigate("/");
   };
 
-    const formatarCPF = (valor) =>
-    valor
-      .replace(/\D/g, '')
-      .replace(/(\d{3})(\d)/, '$1.$2')
-      .replace(/(\d{3})(\d)/, '$1.$2')
-      .replace(/(\d{3})(\d{1,2})$/, '$1-$2')
-      .slice(0, 14);
-
   return (
     <div className="login-container">
       <div className="login-card">

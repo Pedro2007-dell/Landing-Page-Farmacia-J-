@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Medicamentos.css';
-
-const API_BASE_URL = 'https://farmacia-ja-api.onrender.com';
+import API_BASE_URL from '../../config/api.js';
 
 const INTERACTION_RULES = [
   {

@@ -29,25 +29,10 @@ export default function Footer() {
           <div className="rodape-coluna">
             <h4 className="rodape-titulo-coluna">Institucional</h4>
             <ul className="rodape-lista">
-<<<<<<< HEAD
-              <li>
-                <Link to="/sobre">Sobre o Projeto</Link>
-              </li>
-              <li>
-                <a href="#privacidade">Política de Privacidade</a>
-              </li>
-              <li>
-                <a href="#acessibilidade">Acessibilidade</a>
-              </li>
-              <li>
-                <a href="#termos">Termos de Uso</a>
-              </li>
-=======
               <li><Link to="/sobre">Sobre o Projeto</Link></li>
               <li><a href="#privacidade">Política de Privacidade</a></li>
               <li><a href="#acessibilidade">Acessibilidade</a></li>
               <li><a href="#termos">Termos de Uso</a></li>
->>>>>>> 175ce4224b13f71db522a9aba01f727ef0f82780
             </ul>
           </div>
 
@@ -55,21 +40,6 @@ export default function Footer() {
             <h4 className="rodape-titulo-coluna">Desenvolvedores</h4>
             <ul className="rodape-lista rodape-lista-dev">
               <li>
-<<<<<<< HEAD
-                <a href="mailto:contato@farmaciaja.gov.br" className="contato-link">
-                  ✉️ contato@farmaciaja.gov.br
-                </a>
-              </li>
-              <li>
-                <a href="tel:08000001234" className="contato-link">
-                  📞 0800 000 1234
-                </a>
-              </li>
-              <li>
-                <Link to="/contato" className="contato-link">
-                  🌐 gov.br/farmaciaja
-                </Link>
-=======
                 <a href="https://www.instagram.com/matheuslourencoo_/" target="_blank" rel="noopener noreferrer" className="dev-link">
                   <span className="dev-icone">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -104,7 +74,6 @@ export default function Footer() {
                   </span>
                   Paulo Victor
                 </a>
->>>>>>> 175ce4224b13f71db522a9aba01f727ef0f82780
               </li>
             </ul>
           </div>
