@@ -1,14 +1,14 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; 
-import axios from 'axios';
-import './Categorias.css';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import "./Categorias.css";
 
-const API_BASE_URL = 'https://farmacia-ja-api.onrender.com';
+const API_BASE_URL = "https://farmacia-ja-api.onrender.com";
 
 export default function Categorias() {
   const [categorias, setCategorias] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
     carregarCategorias();
@@ -19,25 +19,28 @@ export default function Categorias() {
       const response = await axios.get(`${API_BASE_URL}/medicamentos`);
       const medicamentos = response.data.data || response.data;
 
-      const grouped = medicamentos.reduce((acc, med) => {
-        const cat = med.categoria || 'Outros';
-        if (!acc[cat]) {
-          acc[cat] = {
+      const grouped = {};
+
+      medicamentos.forEach((med) => {
+        const cat = med.categoria || "Outros";
+        if (!grouped[cat]) {
+          grouped[cat] = {
             nome: cat,
             quantidade: 0,
-            medicamentos: []
+            medicamentos: [],
           };
         }
-        acc[cat].quantidade += 1;
-        acc[cat].medicamentos.push(med);
-        return acc;
-      }, {});
+        grouped[cat].quantidade += 1;
+        grouped[cat].medicamentos.push(med);
+      });
 
-      const categoriasArray = Object.values(grouped).sort((a, b) => b.quantidade - a.quantidade);
+      const categoriasArray = Object.values(grouped).sort(
+        (a, b) => b.quantidade - a.quantidade,
+      );
 
       setCategorias(categoriasArray);
     } catch (err) {
-      setError('Erro ao carregar categorias');
+      setError("Erro ao carregar categorias");
       console.error(err);
     } finally {
       setLoading(false);
@@ -60,23 +63,41 @@ export default function Categorias() {
             <div key={categoria.nome} className="categoria-card">
               <div className="card-header">
                 <div className="icon-wrapper">
-                  {categoria.nome.toLowerCase().includes('diab') && <span>🩸</span>}
-                  {categoria.nome.toLowerCase().includes('hipert') && <span>❤️</span>}
-                  {categoria.nome.toLowerCase().includes('asma') && <span>🌬️</span>}
-                  {categoria.nome.toLowerCase().includes('mental') && <span>🧠</span>}
-                  {categoria.nome.toLowerCase().includes('antib') && <span>💊</span>}
-                  {!['diab','hipert','asma','mental','antib'].some(k => categoria.nome.toLowerCase().includes(k)) && <span>💊</span>}
+                  {categoria.nome.toLowerCase().includes("diab") && (
+                    <span>🩸</span>
+                  )}
+                  {categoria.nome.toLowerCase().includes("hipert") && (
+                    <span>❤️</span>
+                  )}
+                  {categoria.nome.toLowerCase().includes("asma") && (
+                    <span>🌬️</span>
+                  )}
+                  {categoria.nome.toLowerCase().includes("mental") && (
+                    <span>🧠</span>
+                  )}
+                  {categoria.nome.toLowerCase().includes("antib") && (
+                    <span>💊</span>
+                  )}
+                  {!["diab", "hipert", "asma", "mental", "antib"].some((k) =>
+                    categoria.nome.toLowerCase().includes(k),
+                  ) && <span>💊</span>}
                 </div>
-                <span className="quantidade">{categoria.quantidade} medicamentos</span>
+                <span className="quantidade">
+                  {categoria.quantidade} medicamentos
+                </span>
               </div>
 
               <h3>{categoria.nome}</h3>
-              <p className="descricao"> 
+              <p className="descricao">
                 Medicamentos para tratamento de {categoria.nome.toLowerCase()}
               </p>
-              <button 
+              <button
                 className="btn-ver"
-                onClick={() => navigate(`/medicamentos?categoria=${encodeURIComponent(categoria.nome)}`)}
+                onClick={() =>
+                  navigate(
+                    `/medicamentos?categoria=${encodeURIComponent(categoria.nome)}`,
+                  )
+                }
               >
                 Ver Medicamentos →
               </button>

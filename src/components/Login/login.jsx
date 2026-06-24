@@ -12,14 +12,6 @@ export default function Login({ setUsuario }) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const formatarCPF = (valor) => {
-    return valor
-      .replace(/\D/g, "")
-      .replace(/(\d{3})(\d)/, "$1.$2")
-      .replace(/(\d{3})(\d)/, "$1.$2")
-      .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-  };
-
   const fazerLogin = async () => {
     setLoading(true);
     setError("");
