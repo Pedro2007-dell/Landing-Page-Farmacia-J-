@@ -1,166 +1,146 @@
-import { useState, useEffect } from 'react';
-import './Farmacias.css';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import "./Farmacias.css";
 
-const API_BASE_URL = 'https://farmacia-ja-api.onrender.com';
+const API_BASE_URL = "https://farmacia-ja-api.onrender.com";
 
 export default function Farmacias() {
-  const [farmacias, setFarmacias] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [bairro, setBairro] = useState('');
+	const [farmacias, setFarmacias] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState("");
+	const [nome, setNome] = useState("");
 
-  useEffect(() => {
-    fetchFarmacias();
-  }, []);
+	useEffect(() => {
+		fetchFarmacias();
+	}, []);
 
-  const fetchFarmacias = async (filtroBairro = '') => {
-    setLoading(true);
-    setError('');
-    try {
-      let url = `${API_BASE_URL}/farmacias`;
-      
-      if (filtroBairro) {
-        url += `/bairro/${filtroBairro}`;
-      }
+	const fetchFarmacias = async () => {
+		setLoading(true);
+		setError("");
+		try {
+			const response = await axios.get(`${API_BASE_URL}/farmacias`);
+			const data = response.data;
+			setFarmacias(data.data);
+		} catch (err) {
+			setError("Erro de conexão com o servidor da API.");
+		} finally {
+			setLoading(false);
+		}
+	};
 
-      const response = await fetch(url);
-      const data = await response.json();
+	const farmaciasFiltradas = farmacias.filter((farm) =>
+		farm.nome.toLowerCase().includes(nome.toLowerCase()),
+	);
 
-      if (response.ok) {
-        setFarmacias(Array.isArray(data) ? data : data.data || []);
-      } else {
-        setError('Erro ao carregar farmácias do servidor.');
-      }
-    } catch (err) {
-      setError('Erro de conexão com o servidor da API.');
-    } finally {
-      setLoading(false);
-    }
-  };
+	const cleanSearch = () => {
+		setNome("");
+	};
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    fetchFarmacias(bairro);
-  };
+	if (loading) return <p>Carregando farmácias...</p>;
+	if (error) return <p className="error-banner">{error}</p>;
 
-  const cleanSearch = () => {
-    setBairro('');
-    fetchFarmacias('');
-  };
+	return (
+		<div className="farmacias-page">
+			<div className="container">
+				<div className="page-header">
+					<h1>Farmácias Conveniadas</h1>
+					<p className="subtitle">
+						Encontre pontos de distribuição do SUS e Farmácia Popular próximos a
+						você
+					</p>
+				</div>
 
-  return (
-    <div className="farmacias-page">
-      <div className="container">
-        
-        <div className="page-header">
-          <h1>Farmácias Conveniadas</h1>
-          <p className="subtitle">Encontre pontos de distribuição do SUS e Farmácia Popular próximos a você</p>
-        </div>
+				<div className="search-bar-form">
+					<div className="search-input-wrapper">
+						<span className="search-icon">📍</span>
+						<input
+							type="text"
+							placeholder="Buscar por nome (ex: Drogasil, Imperial...)"
+							value={nome}
+							onChange={(e) => setNome(e.target.value)}
+						/>
+						{nome && (
+							<button
+								type="button"
+								onClick={cleanSearch}
+								className="btn-clean-input"
+							>
+								✕
+							</button>
+						)}
+					</div>
+				</div>
 
-        <form onSubmit={handleSearch} className="search-bar-form">
-          <div className="search-input-wrapper">
-            <span className="search-icon">📍</span>
-            <input
-              type="text"
-              placeholder="Buscar por bairro (ex: Centro, Savassi, Copacabana...)"
-              value={bairro}
-              onChange={(e) => setBairro(e.target.value)}
-            />
-            {bairro && (
-              <button type="button" onClick={cleanSearch} className="btn-clean-input">✕</button>
-            )}
-          </div>
-          <button type="submit" className="btn-search-submit">Buscar</button>
-        </form>
+				<div className="farmacias-grid">
+					{farmaciasFiltradas.length > 0 ? (
+						farmaciasFiltradas.map((farm) => {
+							const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(farm.nome + ", " + farm.endereco)}`;
+							const cleanPhone = farm.telefone
+								? farm.telefone.replace(/\D/g, "")
+								: "";
+							return (
+								<div key={farm.id} className="farmacia-card glass-card">
+									<div className="farmacia-header">
+										<h3>{farm.nome}</h3>
+										{farm.ativo ? (
+											<span className="status-badge open">🟢 Aberta</span>
+										) : (
+											<span className="status-badge closed">🔴 Fechada</span>
+										)}
+									</div>
 
-        {error && <p className="error-banner">{error}</p>}
+									<div className="farmacia-details">
+										<p>
+											<strong>Endereço:</strong>
+											<span>{farm.endereco}</span>
+										</p>
+										<p>
+											<strong>Telefone:</strong>
+											<span>{farm.telefone || "Não informado"}</span>
+										</p>
+									</div>
 
-        {loading ? (
-          <div className="farmacias-grid">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="farmacia-card glass-card skeleton-card">
-                <div className="skeleton title-skeleton"></div>
-                <div className="skeleton line-skeleton"></div>
-                <div className="skeleton line-skeleton"></div>
-                <div className="skeleton btn-skeleton" style={{ width: '48%', display: 'inline-block', marginRight: '4%' }}></div>
-                <div className="skeleton btn-skeleton" style={{ width: '48%', display: 'inline-block' }}></div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="farmacias-grid">
-            {farmacias.length > 0 ? (
-              farmacias.map((farm) => {
-                const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(farm.nome + ", " + farm.endereco)}`;
-                const cleanPhone = farm.telefone?.replace(/\D/g, '') || '';
-                
-                return (
-                  <div key={farm.id} className="farmacia-card glass-card">
-                    <div className="farmacia-header">
-                      <h3>{farm.nome}</h3>
-                      {farm.ativo ? (
-                        <span className="status-badge open">🟢 Aberta</span>
-                      ) : (
-                        <span className="status-badge closed">🔴 Fechada</span>
-                      )}
-                    </div>
-
-                    <div className="farmacia-details">
-                      <p>
-                        <strong>Endereço:</strong>
-                        <span>{farm.endereco}</span>
-                      </p>
-                      <p>
-                        <strong>Telefone:</strong>
-                        <span>{farm.telefone || 'Não informado'}</span>
-                      </p>
-                    </div>
-
-                    <div className="farmacia-actions">
-                      <a
-                        href={mapsUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-maps"
-                      >
-                        📍 Ver no Mapa
-                      </a>
-
-                      <div className="contact-actions">
-                        {farm.telefone ? (
-                          <>
-                            <a
-                              href={`tel:${cleanPhone}`}
-                              className="btn-ligar"
-                              title="Ligar para farmácia"
-                            >
-                              📞 Ligar
-                            </a>
-                            <a
-                              href={`https://wa.me/55${cleanPhone}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="btn-whatsapp"
-                              title="Conversar por WhatsApp"
-                            >
-                              💬 WhatsApp
-                            </a>
-                          </>
-                        ) : (
-                          <span className="no-phone-label">Telefone Indisponível</span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })
-            ) : (
-              <p className="no-results">Nenhuma farmácia cadastrada encontrada para esta região.</p>
-            )}
-          </div>
-        )}
-
-      </div>
-    </div>
-  );
+									<div className="farmacia-actions">
+										<a
+											href={mapsUrl}
+											target="_blank"
+											rel="noopener noreferrer"
+											className="btn-maps"
+										>
+											📍 Ver no Mapa
+										</a>
+										<div className="contact-actions">
+											{farm.telefone ? (
+												<>
+													<a href={`tel:${cleanPhone}`} className="btn-ligar">
+														📞 Ligar
+													</a>
+													<a
+														href={`https://wa.me/55${cleanPhone}`}
+														target="_blank"
+														rel="noopener noreferrer"
+														className="btn-whatsapp"
+													>
+														💬 WhatsApp
+													</a>
+												</>
+											) : (
+												<span className="no-phone-label">
+													Telefone Indisponível
+												</span>
+											)}
+										</div>
+									</div>
+								</div>
+							);
+						})
+					) : (
+						<p className="no-results">
+							Nenhuma farmácia encontrada com esse nome.
+						</p>
+					)}
+				</div>
+			</div>
+		</div>
+	);
 }
